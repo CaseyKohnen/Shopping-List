@@ -39,6 +39,7 @@ function removeItem(e){
    if(e.target.parentElement.classList.contains('remove-item')){
         if(confirm('Are you Sure?')){
             e.target.parentElement.parentElement.remove();
+            checkUI();
         }
     }
 }
@@ -47,6 +48,20 @@ function clearItems(){
     while(itemList.firstChild){
         itemList.removeChild(itemList.firstChild);
     }
+    checkUI();
+}
+
+function filteritems(e){
+    const items = itemList.querySelectorAll('li');
+    const text = e.target.value.toLowerCase();
+    items.forEach(item => {
+        const itemName = item.firstChild.textContent.toLowerCase();
+        if(itemName.indexOf(text) != -1) {
+            item.style.display = 'flex';
+        }else{
+            item.style.display = 'none'
+        }
+    });
 }
 
 function checkUI(){
@@ -63,5 +78,6 @@ function checkUI(){
 itemForm.addEventListener('submit' , addItem);
 itemList.addEventListener('click' , removeItem);
 clearBtn.addEventListener('click'  , clearItems);
+itemFilter.addEventListener('input'  , filteritems);
 
 checkUI();
